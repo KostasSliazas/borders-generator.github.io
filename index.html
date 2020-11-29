@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="zxx">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=2.0, user-scalable=yes">
+  <title>Tools</title>
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+  <link rel="manifest" href="site.webmanifest">
+  <style>
+    html,
+    body {
+      height: 100%;
+    }
+
+    body {
+      color: #333;
+      font: 16px/1.5em Arial, Geneva, Tahoma, sans-serif;
+      margin: 0;
+      position: relative;
+      overflow-y: hidden;
+    }
+
+    .slide {
+      width: 100px;
+      height: 24px;
+      background: #777;
+      position: relative;
+      margin: 24px 0 0 0;
+      z-index: 3;
+    }
+
+    .slider {
+      width: 24px;
+      height: 24px;
+      background: #000;
+      position: absolute;
+      top: 0;
+    }
+
+    .slideNum {
+      background: #fff;
+      padding: 0 6px;
+      height: 24px;
+      min-width: 12px;
+      max-width: 48px;
+      position: relative;
+    }
+
+    p,
+    blockquote,
+    pre,
+    td,
+    th,
+    label {
+      font-size: 1em;
+      /* 16px */
+      line-height: 1.5000em;
+      /* 24px */
+      margin: 0;
+    }
+
+    h1 {
+      font-size: 1.5000em;
+      /* 24px */
+      line-height: 1.0000em;
+      /* 24px */
+      color: #777;
+      margin: 0;
+      margin-top: 24px;
+      text-align: center;
+      text-transform: uppercase;
+    }
+
+    h2 {
+      font-size: 1.2500em;
+      /* 20px */
+      line-height: 1.2000em;
+      /* 24px */
+      margin: 0;
+    }
+
+    h3,
+    h4,
+    h5 {
+      font-size: 1.0000em;
+      /* 16px */
+      line-height: 1.5000em;
+      /* 24px */
+      margin: 0;
+    }
+
+    .wr {
+      height: 100%;
+      overflow-y: scroll;
+      pointer-events: all;
+      position: relative;
+    }
+
+    @keyframes opaci {
+      0% {
+        opacity: 0;
+      }
+
+      100% {
+        opacity: 1;
+      }
+    }
+
+    @font-face {
+      font-family: 'Numbers';
+      src: url(data:font/truetype;charset=utf-8;base64,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+Ssr+QLdICEh/rABUP6wK/orK/orISEg/pABUCv6Kyv6/oUgICEAAAAIADL//AHDAt0ABQAGAAcADQATABkAHwAlAAATMxcHIycBGQEXFQcnNTcHIyc3MwUXFQcnNTcnNTcXFQM3MxcHI375Kyv5LAFQISEgICv5LCz5/tshISAgICAhISz5Kyv5At0gISH+sAFQ/rAr+isr+ishISAgK/orK/orK/orK/r+hSAgIQAACwBSAB0BwwLdAAUACwARABIAEwAUABUAFgAXABgAGQAAEzMXByMnIRcVByc1ExcVByc1NyEZATERASF++Ssr+SwBUCEhICAhISAg/rABUP6wAt0gISEr+isr+v7bK/orK/or/rABUAFQ/WAABwAy//wBwwLdAAUACwARABcAHQAjACkAABMzFwcjJyEXFQcnNRMXFQcnNTcHIyc3MwUXFQcnNTcnNTcXFQM3MxcHI375Kyv5LAFQISEgICEhICAr+Sws+f7bISEgICAgISEs+Ssr+QLdICEhK/orK/r+2yv6Kyv6KyEhICAr+isr+isr+isr+v6FICAhAAAACAAy//wBwwLdAAUACwARABcAGAAZAB8AJQAAEzMXByMnIRcVByc1ExcVByc1NwcjJzczARExJzU3FxUDNzMXByN++Ssr+SwBUCEhICAhISAgK/ksLPn+2yAgISEs+Ssr+QLdICEhK/orK/r+2yv6Kyv6KyEhIP6QAVAr+isr+v6FICAhAAAAAAEAAAAAAAAAAAADAAA5AwAAAA4ArgABAAAAAAAAAB0APAABAAAAAAABAAkAbgABAAAAAAACAAcAiAABAAAAAAADACUA3AABAAAAAAAEAAkBFgABAAAAAAAFABABQgABAAAAAAAGAAkBZwADAAEECQAAADoAAAADAAEECQABABIAWgADAAEECQACAA4AeAADAAEECQADAEoAkAADAAEECQAEABIBAgADAAEECQAFACABIAADAAEECQAGABIBUwBDAG8AcAB5AHIAaQBnAGgAdAAgACgAYwApACAAMgAwADEAOQAsACAASwBvAHMAdABhAHMALAAsACwAAENvcHlyaWdodCAoYykgMjAxOSwgS29zdGFzLCwsAABVAG4AdABpAHQAbABlAGQAMQAAVW50aXRsZWQxAABSAGUAZwB1AGwAYQByAABSZWd1bGFyAABGAG8AbgB0AEYAbwByAGcAZQAgADIALgAwACAAOgAgAFUAbgB0AGkAdABsAGUAZAAxACAAOgAgADEANQAtADMALQAyADAAMQA5AABGb250Rm9yZ2UgMi4wIDogVW50aXRsZWQxIDogMTUtMy0yMDE5AABVAG4AdABpAHQAbABlAGQAMQAAVW50aXRsZWQxAABWAGUAcgBzAGkAbwBuACAAMAAwADEALgAwADAAMAAgAABWZXJzaW9uIDAwMS4wMDAgAABVAG4AdABpAHQAbABlAGQAMQAAVW50aXRsZWQxAAAAAgAAAAAAAP67ADIAAAAAAAAAAAAAAAAAAAAAAAAAAAAcAAABAgEDABEAEwAUABUAFgAXABgAGQAaABsAHAEEAQUBBgEHAQgBCQEKAQsBDAENAQ4BDwEQAREGZ2x5cGgxB3VuaTAwMEQHdW5pMjAwMAd1bmkyMDAxB3VuaTIwMDIHdW5pMjAwMwd1bmkyMDA0B3VuaTIwMDUHdW5pMjAwNgd1bmkyMDA3B3VuaTIwMDgHdW5pMjAwOQd1bmkyMDBBB3VuaTIwMkYHdW5pMjA1Rgd1bmkyNUZDAAAAAAEAAf//AA8AAQAAAAwAAAAWAAAAAgABAAEAGwABAAQAAAACAAAAAAAAAAEAAAAA1e1FuAAAAADYsJFJAAAAANiwp9I=) format('truetype');
+      font-weight: normal;
+      font-style: normal;
+    }
+
+    .darrow {
+      border-width: 1em 1em 0px 1em;
+    }
+
+    .uarrow {
+      border-width: 0px 1em 1em 1em;
+    }
+
+    .uarrow,
+    .darrow {
+      border-color: #555 transparent;
+      border-style: solid;
+      height: 0;
+      width: 0;
+      cursor: pointer;
+    }
+
+    .uarrow:active,
+    .darrow:active {
+      border-color: #f09 transparent;
+      transition: .2s all;
+    }
+
+    .arows {
+      text-align: center;
+      display: inline-block;
+      background: #aaa;
+      border-radius: 4px;
+      -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+      -moz-tap-highlight-color: rgba(0, 0, 0, 0);
+      -webkit-touch-callout: none;
+      -webkit-user-select: none;
+      -khtml-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+      font-family: "Numbers";
+    }
+
+    .arows span {
+      height: 32px;
+      width: 32px;
+      line-height: 32px;
+      display: block;
+      font-size: 24px;
+    }
+
+    #borders {
+      height: 0;
+      width: 0;
+      margin: auto;
+      border: 1px solid #976;
+      display: flex;
+    }
+
+    .borderspa {
+      display: flex;
+      height: 100%;
+      width: 100%;
+      background: #fde;
+    }
+
+    #botext {
+      color: #000;
+      font-size: 10px;
+      line-height: 10px;
+      text-align: center;
+    }
+
+    #bordersRadius {
+      text-align: center;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(48px, 1fr));
+      align-items: center;
+      align-content: center;
+      margin: auto;
+      background: #eee;
+      max-width: 240px;
+      padding: 10px;
+      border-radius: 4px;
+    }
+
+    #bordersRadius>div {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      margin: auto;
+    }
+
+    .selectable {
+      -webkit-touch-callout: all;
+      /* iOS Safari */
+      -webkit-user-select: all;
+      /* Safari */
+      -khtml-user-select: all;
+      /* Konqueror HTML */
+      -moz-user-select: all;
+      /* Firefox */
+      -ms-user-select: all;
+      /* Internet Explorer/Edge */
+      user-select: all;
+      /* Chrome and Opera */
+    }
+
+    select {
+      max-width: 32px;
+      display: block;
+      background: #555;
+      margin: 0 0 10px 0;
+      padding: 0;
+      border: 0;
+      -webkit-appearance: button;
+      /* WebKit */
+      -moz-appearance: button;
+      /* Mozilla */
+      -o-appearance: button;
+      /* Opera */
+      -ms-appearance: button;
+      /* Internet Explorer */
+      appearance: button;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wr">
+
+    <h1>Border</h1>
+    <div id="bordersRadius">
+      <div></div>
+      <div class="arows">
+        <select id="topc">
+          <option value="transparent">transparent</option>
+          <option value="#000">#000</option>
+          <option value="#777">#777</option>
+          <option value="#fff">#fff</option>
+        </select>
+        <div class="uarrow"></div>
+        <span>10</span>
+        <div class="darrow"></div>
+      </div>
+      <div></div>
+
+      <div class="arows">
+        <select id="leftc">
+          <option value="transparent">transparent</option>
+          <option value="#000" selected>#000</option>
+          <option value="#777">#777</option>
+          <option value="#fff">#fff</option>
+        </select>
+        <div class="uarrow"></div>
+        <span>10</span>
+        <div class="darrow"></div>
+      </div>
+      <div class="borderspa">
+        <div id="borders"></div>
+      </div>
+      <div class="arows">
+        <select id="rightc">
+          <option value="transparent">transparent</option>
+          <option value="#000" selected>#000</option>
+          <option value="#777">#777</option>
+          <option value="#fff">#fff</option>
+        </select>
+        <div class="uarrow"></div>
+        <span>10</span>
+        <div class="darrow"></div>
+      </div>
+
+      <div></div>
+      <div class="arows">
+        <select id="bottomc">
+          <option value="transparent">transparent</option>
+          <option value="#000">#000</option>
+          <option value="#777">#777</option>
+          <option value="#fff">#fff</option>
+        </select>
+        <div class="uarrow"></div>
+        <span>10</span>
+        <div class="darrow"></div>
+      </div>
+      <div></div>
+    </div>
+    <div id="botext" class="selectable"></div>
+  </div>
+  <script src="js/main.min.js"></script>
+</body>
+
+</html>
